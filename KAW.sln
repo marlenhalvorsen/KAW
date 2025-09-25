@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KAW", "KAW\KAW.csproj", "{0320AB60-6D1B-4E32-8E71-EE950DA9A375}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KAWtest", "KAWtest\KAWtest.csproj", "{31EFD611-05BC-4670-9D5F-7979B15FE788}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KAWKonsol", "KAWKonsol\KAWKonsol.csproj", "{0070CEB6-E77C-4EDE-89D6-4D22D33B376B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0320AB60-6D1B-4E32-8E71-EE950DA9A375}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0320AB60-6D1B-4E32-8E71-EE950DA9A375}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0320AB60-6D1B-4E32-8E71-EE950DA9A375}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0320AB60-6D1B-4E32-8E71-EE950DA9A375}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31EFD611-05BC-4670-9D5F-7979B15FE788}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31EFD611-05BC-4670-9D5F-7979B15FE788}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31EFD611-05BC-4670-9D5F-7979B15FE788}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31EFD611-05BC-4670-9D5F-7979B15FE788}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0070CEB6-E77C-4EDE-89D6-4D22D33B376B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0070CEB6-E77C-4EDE-89D6-4D22D33B376B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0070CEB6-E77C-4EDE-89D6-4D22D33B376B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0070CEB6-E77C-4EDE-89D6-4D22D33B376B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
