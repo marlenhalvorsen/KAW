@@ -13,7 +13,7 @@ Learning ground, jeg bruger det til at:
 ## Status  
 - [x] Grundstruktur (Domain, Application, Infrastructure, Console)  
 - [x] Console-menu til at tilføje og vise udtryk  
-- [ ] Repository-implementation (in-memory)  
+- [x] Repository-implementation (in-memory)  
 - [ ] EF Core integration  
 - [ ] API endpoints  
 - [ ] Frontend (senere)  
