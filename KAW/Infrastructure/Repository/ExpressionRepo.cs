@@ -1,10 +1,12 @@
 ﻿using KAW.Application.Interfaces;
 using KAW.Domain.Models;
+using System.Diagnostics.Eventing.Reader;
 
 namespace KAW.Infrastructure.Repository
 {
-    public class ExpressionRepo : IRepo
+    public class ExpressionRepo : IUserExpressionRepo
     {
+        List<UserExpression> _expressions = new List<UserExpression>();
         public List<UserExpression> GetAllExpressions(string word)
         {
             throw new NotImplementedException();
@@ -17,7 +19,7 @@ namespace KAW.Infrastructure.Repository
 
         public void Save(UserExpression expression)
         {
-            throw new NotImplementedException();
+            _expressions.Add(expression);
         }
     }
 }

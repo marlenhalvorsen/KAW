@@ -2,7 +2,7 @@
 
 namespace KAW.Application.Interfaces
 {
-    public interface IRepo
+    public interface IUserExpressionRepo
     {
         public void Save(UserExpression expression);
         public UserExpression GetExpression(string word);
