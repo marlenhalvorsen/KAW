@@ -4,9 +4,10 @@
 Projektet er et lille øveprojekt, hvor jeg arbejder med arkitektur og kode, mens jeg samtidig leger med nordjyske vendinger.  
 
 ## Formål  
-Dette repo er min learning ground. Jeg bruger det til at:  
-- træne C# basics   
-- arbejde med lagdelt arkitektur (Domain, Application, Infrastructure)  
+Learning ground, jeg bruger det til at:  
+- gentage C# basics   
+- arbejde med lagdelt arkitektur (Domain, Application, Infrastructure) 
+- anvende SOLID-principper i praksis 
 - udvikle trin for trin: først som console-app, senere som Web API (og evt. frontend)  
 
 ## Status  
