@@ -7,9 +7,9 @@ namespace KAW.Infrastructure.Repository
     public class ExpressionRepo : IUserExpressionRepo
     {
         List<UserExpression> _expressions = new List<UserExpression>();
-        public List<UserExpression> GetAllExpressions(string word)
+        public List<UserExpression> GetAllExpressions()
         {
-            throw new NotImplementedException();
+            return _expressions;
         }
 
         public UserExpression GetExpression(string word)
