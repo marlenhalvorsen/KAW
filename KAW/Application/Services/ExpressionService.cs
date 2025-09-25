@@ -5,14 +5,15 @@ namespace KAW.Application.Services
 {
     public class ExpressionService : IExpressionService
     {
-        private readonly IRepo expressionRepo; 
+        private readonly IUserExpressionRepo _expressionRepo;
+
+        public ExpressionService(IUserExpressionRepo expressionRepo)
+        {
+            _expressionRepo = expressionRepo;   
+        }
         public void AddExpression(UserExpression expression)
         {
-            if (expression == null)
-            {
-                throw new ArgumentNullException("Udtrykket må indeholde en eller flere tegn");
-            }
-            else expressionRepo.Save(expression);
+            _expressionRepo.Save(expression);
         }
 
         public List<UserExpression> GetAllExpressions()

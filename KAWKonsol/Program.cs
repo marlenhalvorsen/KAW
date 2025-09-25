@@ -1,6 +1,7 @@
 ﻿using KAW.Application.Interfaces;
 using KAW.Application.Services;
 using KAW.Domain.Models;
+using KAW.Infrastructure.Repository;
 
 
 Console.WriteLine("Har du også forvildet dig ind i Nordjylland? " +
@@ -9,7 +10,8 @@ Console.WriteLine("Har du også forvildet dig ind i Nordjylland? " +
 Console.WriteLine("Menu: \nTast 1 for at tilføje udtryk: \nTast 2 for at søge efter udtryk: " +
     "\nVælg 3 for at se alle udtryk: \nTast 4 for fuld panik");
 
-IExpressionService serviceExpression = new ExpressionService();
+IUserExpressionRepo repo = new ExpressionRepo();
+IExpressionService serviceExpression = new ExpressionService(repo);
 
 int choice = int.Parse(Console.ReadLine());  
 switch (choice)
