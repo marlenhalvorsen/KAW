@@ -18,7 +18,8 @@ namespace KAW.Application.Services
 
         public List<UserExpression> GetAllExpressions()
         {
-            throw new NotImplementedException();
+            List<UserExpression> userExpressions = _expressionRepo.GetAllExpressions();
+            return userExpressions;
         }
 
         public UserExpression GetExpression(string searchWord)
