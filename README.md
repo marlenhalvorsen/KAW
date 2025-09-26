@@ -8,12 +8,13 @@ Learning ground, jeg bruger det til at:
 - gentage C# basics   
 - arbejde med lagdelt arkitektur (Domain, Application, Infrastructure) 
 - anvende SOLID-principper i praksis 
-- udvikle trin for trin: først som console-app, senere som Web API (og evt. frontend)  
+- udvikle trin for trin: først som console-app, senere som Web API (og evt. frontend)
+- testing for kvalitetssikring
 
 ## Status  
 - [x] Grundstruktur (Domain, Application, Infrastructure, Console)  
 - [x] Console-menu til at tilføje og vise udtryk  
-- [x] Repository-implementation (in-memory)  
+- [x] Repository-implementation (in-memory)
 - [ ] EF Core integration  
 - [ ] API endpoints  
 - [ ] Frontend (senere)  
