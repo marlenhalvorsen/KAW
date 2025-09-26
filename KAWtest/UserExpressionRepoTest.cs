@@ -13,8 +13,8 @@ namespace KAWtest
         {
             //ARRANGE
             IUserExpressionRepo userExpressionRepo = new ExpressionRepo();
-            userExpressionRepo.Save(new UserExpression { Name = "Kaw", Description = "Noget er svært" });
-            userExpressionRepo.Save(new UserExpression { Name = "Udtryk", Description = "Bare noget" });
+            userExpressionRepo.Save(new UserExpression { Name = "Kaw", Description = "Noget er åndssvagt" });
+            userExpressionRepo.Save(new UserExpression { Name = "Pangel", Description = "Billig lort" });
 
             //ACT
             List<UserExpression> foundExpressions = new List<UserExpression>();
@@ -23,7 +23,7 @@ namespace KAWtest
             //ASSERT
             Assert.AreEqual(2, foundExpressions.Count);
             Assert.AreEqual("Kaw", foundExpressions[0].Name);
-            Assert.AreEqual("Udtryk", foundExpressions[1].Name);
+            Assert.AreEqual("Pangel", foundExpressions[1].Name);
         }
     }
 }
