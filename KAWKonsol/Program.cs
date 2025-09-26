@@ -6,12 +6,6 @@ using KAW.Infrastructure.Repository;
 
 Console.WriteLine("Har du også forvildet dig ind i Nordjylland? " +
     "Frygt ikke, her er en liste over mærkelige udtryk og deres forklaringer. ");
-
-
-
-
-
-
 IUserExpressionRepo repo = new ExpressionRepo();
 IExpressionService serviceExpression = new ExpressionService(repo);
 
