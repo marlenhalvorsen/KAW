@@ -22,9 +22,9 @@ namespace KAW.Application.Services
             return userExpressions;
         }
 
-        public UserExpression GetExpression(string searchWord)
+        public List<UserExpression> GetExpressions(string searchWord)
         {
-            throw new NotImplementedException();
+            return _expressionRepo.GetExpressions(searchWord);
         }
     }
 }
