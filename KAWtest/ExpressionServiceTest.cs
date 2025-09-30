@@ -2,6 +2,7 @@ using Moq;
 using KAW.Application.Interfaces;
 using KAW.Application.Services;
 using KAW.Domain.Models;
+using System.Security.Cryptography.X509Certificates;
 
 namespace KAWtest;
 
@@ -47,5 +48,30 @@ public class ExpressionServiceTest
             It.Is<UserExpression>(e => e.Name == "Kaw" && e.Description == "Noget er åndssvagt")),
             Times.Once());
         mockRepository.VerifyNoOtherCalls();
+    }
+
+    [TestMethod]
+    public void GetExpressions_ShouldReturnExpressions_WhenSearchWordIsValid()
+    {
+        //ARRANGE
+        var mockRepository = new Mock<IUserExpressionRepo>();
+        IExpressionService expressionService = new ExpressionService(mockRepository.Object);
+
+
+        string searchWord = "Kaw";
+        var exptectedList = new List<UserExpression>
+        {
+            new UserExpression { Name = "Kaw", Description = "Noget er ånddssvagt" }
+        };
+
+        mockRepository.Setup(x => x.GetExpressions(searchWord)).Returns(exptectedList);
+        //ACT
+        var result = expressionService.GetExpressions(searchWord);
+
+        //ASSERT
+        mockRepository.Verify(x => x.GetExpressions(searchWord), Times.Once());
+        Assert.AreEqual(1, result.Count);
+        Assert.AreEqual("Kaw", result[0].Name);
+
     }
 }
