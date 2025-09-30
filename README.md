@@ -1,24 +1,25 @@
-# KAW – Nordjysk ordbog over kaw'e udtryk  
+# KAW – North Jutlandic Dictionary of *kaw’e* Expressions  
 
-**KAW** er et ord fra nordjysk dialekt. Det bruges om noget, der er besværligt, tungt eller lidt bøvlet – fx en *kav sag*.  
-Projektet er et lille øveprojekt, hvor jeg arbejder med arkitektur og kode, mens jeg samtidig leger med nordjyske vendinger.  
+**KAW** is a word from the North Jutland dialect. It describes something difficult, heavy, or a bit troublesome – e.g., *a kaw case*.  
 
-## Formål  
-Learning ground, jeg bruger det til at:  
-- gentage C# basics   
-- arbejde med lagdelt arkitektur (Domain, Application, Infrastructure) 
-- anvende SOLID-principper i praksis 
-- udvikle trin for trin: først som console-app, senere som Web API (og evt. frontend)
-- testing for kvalitetssikring blandt andet ved brug af Moq
+This project is a **practice playground** where I explore software architecture and coding patterns, while also having fun with North Jutlandic expressions.  
+
+## Purpose  
+I use the project as a learning ground to:  
+- Revisit C# fundamentals  
+- Work with layered architecture (Domain, Application, Infrastructure)  
+- Apply SOLID principles in practice  
+- Develop iteratively: starting as a console app, later evolving into a Web API (and possibly a frontend)  
+- Ensure quality with testing (using Moq, among others)  
 
 ## Status  
-- [x] Grundstruktur (Domain, Application, Infrastructure, Console)  
-- [x] Console-menu til at tilføje og vise udtryk  
-- [x] Repository-implementation (in-memory)
+- [x] Basic structure (Domain, Application, Infrastructure, Console)  
+- [x] Console menu for adding and displaying expressions  
+- [x] Repository implementation (in-memory)  
 - [ ] EF Core integration  
 - [ ] API endpoints  
-- [ ] Frontend (senere)  
+- [ ] Frontend (planned)  
 
-## Om projektet  
-Projektet er ikke et færdigt produkt, men en proces.  
-Det viser, hvordan jeg øver mig på grundlæggende færdigheder i C#, arbejder med lagdeling, og gradvist bygger det ud til noget større.  
+## About the Project  
+This is **not a finished product** but an ongoing process.  
+It demonstrates how I practice core C# skills, experiment with layered architecture, and gradually extend the solution step by step.  
