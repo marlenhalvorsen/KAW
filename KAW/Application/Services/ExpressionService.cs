@@ -24,7 +24,13 @@ namespace KAW.Application.Services
 
         public List<UserExpression> GetExpressions(string searchWord)
         {
-            return _expressionRepo.GetExpressions(searchWord);
+            var normalized = searchWord?.Trim();
+            if (string.IsNullOrEmpty(normalized))
+            {
+                return _expressionRepo.GetAllExpressions();
+            }
+
+            return _expressionRepo.GetExpressions(normalized);
         }
     }
 }

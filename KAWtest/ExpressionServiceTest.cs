@@ -74,4 +74,22 @@ public class ExpressionServiceTest
         Assert.AreEqual("Kaw", result[0].Name);
 
     }
+
+    [TestMethod]
+    public void GetExpressions_ShouldTrimSearchWord_WhenThereIsSpacing()
+    {
+        //ARRANGE
+        var mockRepository = new Mock<IUserExpressionRepo>();
+        IExpressionService expressionService = new ExpressionService(mockRepository.Object);
+        mockRepository
+            .Setup(x => x.GetExpressions(It.IsAny<string>()))
+            .Returns(new List<UserExpression>());
+
+        //ACT
+        expressionService.GetExpressions(" Kaw");
+
+        //ASSERT
+        mockRepository.Verify(x => x.GetExpressions(It.Is<string> (s => s == "Kaw")), 
+            Times.Once);
+    }
 }
