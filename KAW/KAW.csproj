@@ -14,4 +14,8 @@
     <Folder Include="Domain\Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include=".github\workflows\dotnet.yml" />
+  </ItemGroup>
+
 </Project>
