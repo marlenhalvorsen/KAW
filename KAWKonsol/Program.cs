@@ -15,14 +15,14 @@ while (stay)
 {
     Console.WriteLine("Menu: \nTast 1 for at tilføje udtryk: \nTast 2 for at søge efter udtryk: " +
 "\nVælg 3 for at se alle udtryk: \nTast 4 for fuld panik");
-    int choice = int.Parse(Console.ReadLine());
+    int? choice = int.Parse(Console.ReadLine());
     switch (choice)
     {
         case 1:
             Console.WriteLine("Tilføj udtrykkets navn efterfulgt af enter: ");
-            string name = Console.ReadLine();
+            string? name = Console.ReadLine();
             Console.WriteLine("Skriv en beskrivelse af udtrykket efterfulgt af enter: ");
-            string description = Console.ReadLine();
+            string? description = Console.ReadLine();
 
             var exp = new UserExpression
             {
