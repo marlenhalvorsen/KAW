@@ -1,6 +1,5 @@
 ﻿using KAW.Application.Interfaces;
 using KAW.Domain.Models;
-using System.Xml;
 namespace KAW.Application.Services
 {
     public class ExpressionService : IExpressionService
@@ -13,6 +12,10 @@ namespace KAW.Application.Services
         }
         public void AddExpression(UserExpression expression)
         {
+            if (String.IsNullOrWhiteSpace(expression.Name))
+            { 
+                throw new ArgumentException("Expressions must have a name", nameof(expression)); 
+            }
             _expressionRepo.Save(expression);
         }
 

@@ -63,7 +63,6 @@ public class ExpressionServiceTest
         {
             new UserExpression { Name = "Kaw", Description = "Noget er ånddssvagt" }
         };
-
         mockRepository.Setup(x => x.GetExpressions(searchWord)).Returns(exptectedList);
         //ACT
         var result = expressionService.GetExpressions(searchWord);
@@ -73,5 +72,18 @@ public class ExpressionServiceTest
         Assert.AreEqual(1, result.Count);
         Assert.AreEqual("Kaw", result[0].Name);
 
+
+    }
+    [TestMethod]
+    public void AddExpression_ShouldThrowException_WhenEmptyEntry()
+    {
+        //ARRANGE
+
+        var mockRepository = new Mock<IUserExpressionRepo>();
+        IExpressionService expressionService = new ExpressionService(mockRepository.Object);
+        var expr = new UserExpression { Name = " ", Description = "Der står noget her " };
+        //ACT
+        //ASSERT
+        Assert.ThrowsException<ArgumentException> (() => expressionService.AddExpression(expr));
     }
 }
