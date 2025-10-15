@@ -14,15 +14,7 @@ namespace KAW.Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<UserExpression>(entity =>
-            {
-                entity.HasKey(e => e.Id);       //set id as pk
-                entity.Property(e => e.Name)
-                .HasMaxLength(200)
-                .IsRequired();                  //name is required
-                entity.HasIndex(e => e.Name).IsUnique(); //name is also supposed to be unique
-            });
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         }
         public Task<int> SaveChangesAsync(CancellationToken ct = default)
                 => base.SaveChangesAsync(ct);
