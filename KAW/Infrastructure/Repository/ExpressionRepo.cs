@@ -1,35 +1,56 @@
 ﻿using KAW.Application.Interfaces;
 using KAW.Domain.Models;
 using System.Diagnostics.Eventing.Reader;
+using Microsoft.EntityFrameworkCore;
+using KAW.Infrastructure.Persistence;
 
 namespace KAW.Infrastructure.Repository
 {
     public class ExpressionRepo : IUserExpressionRepo
     {
-        List<UserExpression> _expressions = new List<UserExpression>();
+        AppDbContext _appDbContext;
+
+        public ExpressionRepo(AppDbContext appDbContext)
+        {
+            _appDbContext = appDbContext;
+        }
+
+        public async Task AddAsync(UserExpression userExpression)
+        {
+            await _appDbContext.AddAsync(userExpression);
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var userExpression = await _appDbContext.UserExpressions.FindAsync(id);
+            if(userExpression != null)
+                _appDbContext.UserExpressions.Remove(userExpression);
+        }
+
+        public async Task<IEnumerable<UserExpression>> GetAllAsync()
+        {
+            return await _appDbContext.UserExpressions.ToListAsync();
+        }
+
         public List<UserExpression> GetAllExpressions()
         {
-            return _expressions;
+            throw new NotImplementedException();
         }
 
-        public List<UserExpression> GetExpressions(string word)
+        public Task<UserExpression?> GetByInputAsync(string input)
         {
-            if (string.IsNullOrEmpty(word)) return _expressions;
-
-            //helper method to check for null cases in source
-            bool ContainsIgnoreCase(string? source, string? value) =>
-                !string.IsNullOrEmpty(source) &&
-                source.IndexOf(value, StringComparison.CurrentCultureIgnoreCase) >= 0;
-            
-            return _expressions
-                .Where(e => e != null && (ContainsIgnoreCase(e.Name, word) ||
-                ContainsIgnoreCase(e.Description, word)))
-                .ToList();
+            throw new NotImplementedException();
         }
 
-        public void Save(UserExpression expression)
+
+        public async Task SaveChangesAsync()
         {
-            _expressions.Add(expression);
+            await _appDbContext.SaveChangesAsync();
+        }
+
+        public Task UpdateAsync(UserExpression userExpression)
+        {
+            throw new NotImplementedException();
         }
     }
 }

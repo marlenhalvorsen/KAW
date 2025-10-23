@@ -4,8 +4,12 @@ namespace KAW.Application.Interfaces
 {
     public interface IUserExpressionRepo
     {
-        public void Save(UserExpression expression);
-        public List<UserExpression> GetExpressions(string word);
-        public List<UserExpression> GetAllExpressions(); 
+        Task AddAsync(UserExpression userExpression); 
+        Task<UserExpression?> GetByInputAsync(string input);
+        Task<UserExpression?> GetAllAsync(); 
+        Task UpdateAsync(UserExpression userExpression);
+        Task DeleteAsync(int id); 
+        Task SaveChangesAsync(); 
+
     }
 }
