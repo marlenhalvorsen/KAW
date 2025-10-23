@@ -15,45 +15,44 @@ namespace KAW.Infrastructure.Repository
             _appDbContext = appDbContext;
         }
 
-        public async Task AddAsync(UserExpression userExpression)
+        public async Task AddAsync(UserExpression userExpression, CancellationToken ct)
         {
-            await _appDbContext.UserExpressions.AddAsync(userExpression);
+            await _appDbContext.UserExpressions.AddAsync(userExpression, ct);
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id, CancellationToken ct)
         {
-            var userExpression = await _appDbContext.UserExpressions.FindAsync(id);
+            var userExpression = await _appDbContext.UserExpressions.FindAsync(id, ct);
             if (userExpression == null) return false; 
 
-            if(userExpression != null)
                 _appDbContext.UserExpressions.Remove(userExpression);
             return true; 
         }
 
-        public async Task<IEnumerable<UserExpression>> GetAllAsync()
+        public async Task<IEnumerable<UserExpression>> GetAllAsync(CancellationToken ct)
         {
-            return await _appDbContext.UserExpressions.ToListAsync();
+            return await _appDbContext.UserExpressions.ToListAsync(ct);
         }
 
-        public async Task<IEnumerable<UserExpression>> GetByInputAsync(string input)
+        public async Task<IEnumerable<UserExpression>> GetByInputAsync(string input, CancellationToken ct)
         {
             if(string.IsNullOrWhiteSpace(input))
                 return Enumerable.Empty<UserExpression>(); 
 
-            var normalizedInput = input.ToLower(); 
+            var normalizedInput = input.ToLowerInvariant(); 
 
             return await _appDbContext.UserExpressions
                 .Where(x => x.Name.ToLower().Contains(normalizedInput))
-                .ToListAsync(); 
+                .ToListAsync(ct); 
         }
 
 
-        public async Task SaveChangesAsync()
+        public async Task SaveChangesAsync(CancellationToken ct)
         {
-            await _appDbContext.SaveChangesAsync();
+            await _appDbContext.SaveChangesAsync(ct);
         }
 
-        public async Task<UserExpression?> UpdateAsync(UserExpression userExpression)
+        public async Task<UserExpression?> UpdateAsync(UserExpression userExpression, CancellationToken ct)
         {
             var existing = await _appDbContext.UserExpressions.FindAsync(userExpression.Id);
             if (existing == null) return null; 
