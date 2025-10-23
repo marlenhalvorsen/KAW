@@ -6,9 +6,9 @@ using KAW.Infrastructure.Persistence;
 
 namespace KAW.Infrastructure.Repository
 {
-    public class ExpressionRepo : IUserExpressionRepo
+    public sealed class ExpressionRepo : IUserExpressionRepo
     {
-        AppDbContext _appDbContext;
+        private readonly AppDbContext _appDbContext;
 
         public ExpressionRepo(AppDbContext appDbContext)
         {
@@ -17,14 +17,17 @@ namespace KAW.Infrastructure.Repository
 
         public async Task AddAsync(UserExpression userExpression)
         {
-            await _appDbContext.AddAsync(userExpression);
+            await _appDbContext.UserExpressions.AddAsync(userExpression);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             var userExpression = await _appDbContext.UserExpressions.FindAsync(id);
+            if (userExpression == null) return false; 
+
             if(userExpression != null)
                 _appDbContext.UserExpressions.Remove(userExpression);
+            return true; 
         }
 
         public async Task<IEnumerable<UserExpression>> GetAllAsync()
@@ -32,14 +35,16 @@ namespace KAW.Infrastructure.Repository
             return await _appDbContext.UserExpressions.ToListAsync();
         }
 
-        public List<UserExpression> GetAllExpressions()
+        public async Task<IEnumerable<UserExpression>> GetByInputAsync(string input)
         {
-            throw new NotImplementedException();
-        }
+            if(string.IsNullOrWhiteSpace(input))
+                return Enumerable.Empty<UserExpression>(); 
 
-        public Task<UserExpression?> GetByInputAsync(string input)
-        {
-            throw new NotImplementedException();
+            var normalizedInput = input.ToLower(); 
+
+            return await _appDbContext.UserExpressions
+                .Where(x => x.Name.ToLower().Contains(normalizedInput))
+                .ToListAsync(); 
         }
 
 
@@ -48,9 +53,14 @@ namespace KAW.Infrastructure.Repository
             await _appDbContext.SaveChangesAsync();
         }
 
-        public Task UpdateAsync(UserExpression userExpression)
+        public async Task<UserExpression?> UpdateAsync(UserExpression userExpression)
         {
-            throw new NotImplementedException();
+            var existing = await _appDbContext.UserExpressions.FindAsync(userExpression.Id);
+            if (existing == null) return null; 
+            existing.Name = userExpression.Name;
+            existing.Description = userExpression.Description;
+
+            return existing;
         }
     }
 }
