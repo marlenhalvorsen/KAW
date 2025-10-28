@@ -1,6 +1,5 @@
 ﻿using KAW.Application.Interfaces;
 using KAW.Domain.Models;
-using System.Diagnostics.Eventing.Reader;
 using Microsoft.EntityFrameworkCore;
 using KAW.Infrastructure.Persistence;
 
