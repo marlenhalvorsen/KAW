@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KAW", "KAW\KAW.csproj", "{0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KAWtest", "KAWtest\KAWtest.csproj", "{31EFD611-05BC-4670-9D5F-7979B15FE788}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KAWKonsol", "KAWKonsol\KAWKonsol.csproj", "{0070CEB6-E77C-4EDE-89D6-4D22D33B376B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{31EFD611-05BC-4670-9D5F-7979B15FE788}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31EFD611-05BC-4670-9D5F-7979B15FE788}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31EFD611-05BC-4670-9D5F-7979B15FE788}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0070CEB6-E77C-4EDE-89D6-4D22D33B376B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0070CEB6-E77C-4EDE-89D6-4D22D33B376B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0070CEB6-E77C-4EDE-89D6-4D22D33B376B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0070CEB6-E77C-4EDE-89D6-4D22D33B376B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
