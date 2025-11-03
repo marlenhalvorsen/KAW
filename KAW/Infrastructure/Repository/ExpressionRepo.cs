@@ -35,13 +35,11 @@ namespace KAW.Infrastructure.Repository
 
         public async Task<IEnumerable<UserExpression>> GetByInputAsync(string input, CancellationToken ct)
         {
-            if(string.IsNullOrWhiteSpace(input))
-                return Enumerable.Empty<UserExpression>(); 
-
-            var normalizedInput = input.ToLowerInvariant(); 
+            var normalizedInput = input.ToLowerInvariant();
 
             return await _appDbContext.UserExpressions
-                .Where(x => x.Name.ToLower().Contains(normalizedInput))
+                .Where(x => x.Name.ToLower()
+                .Contains(normalizedInput))
                 .ToListAsync(ct); 
         }
 
@@ -60,5 +58,12 @@ namespace KAW.Infrastructure.Repository
 
             return existing;
         }
+        public async Task<UserExpression?> FindExpressionById(int id, CancellationToken ct = default)
+        {
+            var userExpression = await _appDbContext.UserExpressions.FindAsync(id);
+            if(userExpression == null) return null;
+            return userExpression;
+        }
+
     }
 }
