@@ -4,8 +4,11 @@ namespace KAW.Application.Interfaces
 {
     public interface IExpressionService
     {
-        public void AddExpression(UserExpression expression);
-        public List<UserExpression> GetExpressions(string searchWord);
-        public List<UserExpression> GetAllExpressions();
+        Task<UserExpression>SaveExpression(UserExpression expression, CancellationToken ct = default);
+        Task<UserExpression?> UpdateExpression(UserExpression updatedExpression, CancellationToken ct = default);
+        Task<bool> DeleteExpression(int expressionId, CancellationToken ct = default);
+        Task<IEnumerable<UserExpression>> FindExpression(string searchWord, CancellationToken ct = default);
+        Task<IEnumerable<UserExpression>>FetchAllExpressions(CancellationToken ct = default);
+
     }
 }

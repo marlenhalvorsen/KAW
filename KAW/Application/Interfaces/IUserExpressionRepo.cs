@@ -10,6 +10,7 @@ namespace KAW.Application.Interfaces
         Task<UserExpression?> UpdateAsync(UserExpression userExpression, CancellationToken ct = default);
         Task<bool> DeleteAsync(int id, CancellationToken ct = default); 
         Task SaveChangesAsync(CancellationToken ct = default); 
+        Task<UserExpression?> FindExpressionById(int id, CancellationToken ct = default);
 
     }
 }
