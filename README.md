@@ -1,4 +1,6 @@
 [![.NET Build & Test](https://github.com/marlenhalvorsen/KAW/actions/workflows/dotnet.yml/badge.svg?branch=master)](https://github.com/marlenhalvorsen/KAW/actions/workflows/dotnet.yml)
+![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?logo=dotnet&logoColor=white)
+![License](https://img.shields.io/badge/license-MIT-green)
 # KAW – North Jutlandic Dictionary of *kaw’e* Expressions
 
 **KAW** is a word from the North Jutland dialect. It describes something difficult, heavy, or a bit troublesome – e.g., *a kaw case*.
