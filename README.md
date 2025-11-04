@@ -12,7 +12,18 @@ This project is a **practice playground** where I explore software architecture 
 - Entity Framework Core
 - xUnit + Moq
 - GitHub Actions (CI)
-  
+
+## Continuous Integration & Branch Policy
+
+All code changes go through Pull Requests against the `master` branch.  
+Each PR triggers the .NET Build & Test GitHub Actions workflow, which must pass before merging.  
+Branch protection rules ensure that:
+- The PR branch is up to date with `master`
+- All checks (build & tests) pass successfully
+- No direct pushes are allowed to `master`
+
+This setup keeps the master branch stable and production-ready at all times.
+
 ## Project Structure
 This solution follows a layered (hexagonal) architecture:
 
@@ -41,6 +52,18 @@ I use the project as a learning ground to:
 - [ ] API endpoints
 
 ## Getting Started
+
+Quick setup guide for running KAW locally.
+
+### Prerequisites
+- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+- Optional: [Docker](https://www.docker.com/) if you plan to containerize the service later
+
+### Clone & Build
 ```bash
+git clone https://github.com/MarlenHalvorsen/kaw.git
+cd kaw
 dotnet restore
-dotnet test```
+dotnet build --configuration Release
+dotnet test --configuration Release
+```
