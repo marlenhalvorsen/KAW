@@ -24,7 +24,7 @@ namespace KAW.Infrastructure.Repository
             var userExpression = await _appDbContext.UserExpressions.FindAsync(id, ct);
             if (userExpression == null) return false; 
 
-                _appDbContext.UserExpressions.Remove(userExpression);
+            await _appDbContext.UserExpressions.Remove(userExpression);
             return true; 
         }
 
