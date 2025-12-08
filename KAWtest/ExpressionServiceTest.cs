@@ -1,107 +1,48 @@
-//using Moq;
-//using KAW.Application.Interfaces;
-//using KAW.Application.Services;
-//using KAW.Domain.Models;
-//using System.Security.Cryptography.X509Certificates;
+using Xunit;
+using Moq;
+using System.Threading;
+using KAW.Application.Services;
+using KAW.Application.Interfaces;
+using KAW.Domain.Models;
+using System.Threading.Tasks;
+using System;
 
-//namespace KAWtest;
+public class ExpressionServiceTests
+{
+    private readonly Mock<IUserExpressionRepo> _repoMock;
+    private readonly ExpressionService _service;
 
-//[TestClass]
-//public class ExpressionServiceTest
-//{
-//    [TestMethod]
-//    public void GetAllExpressions_ShouldReturnList()
-//    {
-//        //ARRANGE
-//        var mockRepository = new Mock<IUserExpressionRepo>();
+    public ExpressionServiceTests()
+    {
+        _repoMock = new Mock<IUserExpressionRepo>();
+        _service = new ExpressionService(_repoMock.Object);
+    }
 
-//        var expectedList = new List<UserExpression>
-//        {
-//            new UserExpression { Name = "Kaw", Description = "Noget er åndssvagt" },
-//            new UserExpression { Name = "Pangel", Description = "Billig lort" }
-//        };
-//        mockRepository.Setup(x => x.GetAllExpressions()).Returns(expectedList);
-//        IExpressionService expressionService = new ExpressionService(mockRepository.Object);
+    [Fact]
+    public async Task DeleteExpression_ShouldReturnFalse_WhenIdIsInvalid()
+    {
+        // Act
+        var result = await _service.DeleteExpression(0);
 
+        // Assert
+        Assert.False(result);
+        _repoMock.Verify(r => r.DeleteAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()), Times.Never);
+    }
 
-//        //ACT
-//        List<UserExpression> foundExpressions = expressionService.GetAllExpressions();
+    [Fact]
+    public async Task DeleteExpression_ShouldReturnTrue_WhenDeletionIsSuccessful()
+    {
+        // Arrange
+        _repoMock
+            .Setup(r => r.DeleteAsync(1, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(true);
 
-//        //ASSERT
-//        Assert.AreEqual(2, foundExpressions.Count);
-//    }
-//    [TestMethod]
-//    public void AddExpression_ShouldCallSave_WhenExpressionIsValid()
-//    {
-//        //ARRANGE
-//        var mockRepository = new Mock<IUserExpressionRepo>();
-//        IExpressionService expressionService = new ExpressionService(mockRepository.Object);
+        // Act
+        var result = await _service.DeleteExpression(1);
 
-//        UserExpression userExpression = new UserExpression { Name = "Kaw", Description = "Noget er åndssvagt" };
-
-//        //ACT
-//        expressionService.AddExpression(userExpression);
-
-//        //ASSERT
-//        mockRepository.Verify(x => x.Save(It.IsAny<UserExpression>()), Times.Once());
-//        mockRepository.Verify(x => x.Save(
-//            It.Is<UserExpression>(e => e.Name == "Kaw" && e.Description == "Noget er åndssvagt")),
-//            Times.Once());
-//        mockRepository.VerifyNoOtherCalls();
-//    }
-
-//    [TestMethod]
-//    public void GetExpressions_ShouldReturnExpressions_WhenSearchWordIsValid()
-//    {
-//        //ARRANGE
-//        var mockRepository = new Mock<IUserExpressionRepo>();
-//        IExpressionService expressionService = new ExpressionService(mockRepository.Object);
-
-
-//        string searchWord = "Kaw";
-//        var exptectedList = new List<UserExpression>
-//        {
-//            new UserExpression { Name = "Kaw", Description = "Noget er ånddssvagt" }
-//        };
-//        mockRepository.Setup(x => x.GetExpressions(searchWord)).Returns(exptectedList);
-//        //ACT
-//        var result = expressionService.GetExpressions(searchWord);
-
-//        //ASSERT
-//        mockRepository.Verify(x => x.GetExpressions(searchWord), Times.Once());
-//        Assert.AreEqual(1, result.Count);
-//        Assert.AreEqual("Kaw", result[0].Name);
-
-
-//    }
-//    [TestMethod]
-//    public void AddExpression_ShouldThrowException_WhenEmptyEntry()
-//    {
-//        //ARRANGE
-
-//        var mockRepository = new Mock<IUserExpressionRepo>();
-//        IExpressionService expressionService = new ExpressionService(mockRepository.Object);
-//        var expr = new UserExpression { Name = " ", Description = "Der står noget her " };
-//        //ACT
-//        //ASSERT
-//        Assert.ThrowsException<ArgumentException> (() => expressionService.AddExpression(expr));
-//    }
-
-//    [TestMethod]
-//    public void GetExpressions_ShouldTrimSearchWord_WhenThereIsSpacing()
-//    {
-//        //ARRANGE
-//        var mockRepository = new Mock<IUserExpressionRepo>();
-//        IExpressionService expressionService = new ExpressionService(mockRepository.Object);
-//        mockRepository
-//            .Setup(x => x.GetExpressions(It.IsAny<string>()))
-//            .Returns(new List<UserExpression>());
-
-//        //ACT
-//        expressionService.GetExpressions(" Kaw");
-
-//        //ASSERT
-//        mockRepository.Verify(x => x.GetExpressions(It.Is<string> (s => s == "Kaw")), 
-//            Times.Once);
-//    }
-//}
+        // Assert
+        Assert.True(result);
+        _repoMock.Verify(r => r.DeleteAsync(1, It.IsAny<CancellationToken>()), Times.Once);
+        _repoMock.Verify(r => r.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+    }
+}
