@@ -2,7 +2,9 @@ using FluentAssertions;
 using KAW.Application.Ports.Outbound;
 using KAW.Application.Services;
 using KAW.Domain.Models;
+using KAW.Infrastructure.Repository;
 using Moq;
+using System.Text.RegularExpressions;
 using Xunit;
 
 public class ExpressionServiceTests
@@ -82,6 +84,27 @@ public class ExpressionServiceTests
         _repoMock.Verify(r => r.GetAllAsync(It.IsAny<CancellationToken>()), Times.Once);
 
     }
-    
+    [Fact]
+    public async Task FindExpression_ShouldReturnExpression_WhenInputIsValid()
+    {
+        // Arrange 
+        var input = "something";
+        var listOfExpression = new List<UserExpression> { 
+            new UserExpression 
+            { Id = 1, Name = "something", Description = "somethingElse" } };
+
+        _repoMock
+            .Setup(r => r.GetByInputAsync(input, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(listOfExpression);
+
+        // Act
+        var result = await _service.FindExpression(input);
+
+        // Assert
+        result.Should().BeEquivalentTo(listOfExpression);
+        _repoMock.Verify(r => r.GetByInputAsync(input, It.IsAny<CancellationToken>()), Times.Once);
+
+    }
+
 
 }
