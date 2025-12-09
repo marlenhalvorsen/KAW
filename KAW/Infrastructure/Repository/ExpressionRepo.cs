@@ -1,7 +1,7 @@
-﻿using KAW.Application.Interfaces;
-using KAW.Domain.Models;
+﻿using KAW.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using KAW.Infrastructure.Persistence;
+using KAW.Application.Ports.Outbound;
 
 namespace KAW.Infrastructure.Repository
 {
@@ -28,12 +28,12 @@ namespace KAW.Infrastructure.Repository
             return true; 
         }
 
-        public async Task<IEnumerable<UserExpression>> GetAllAsync(CancellationToken ct)
+        public async Task<IReadOnlyCollection<UserExpression>> GetAllAsync(CancellationToken ct)
         {
             return await _appDbContext.UserExpressions.ToListAsync(ct);
         }
 
-        public async Task<IEnumerable<UserExpression>> GetByInputAsync(string input, CancellationToken ct)
+        public async Task<IReadOnlyCollection<UserExpression>> GetByInputAsync(string input, CancellationToken ct)
         {
             var normalizedInput = input.ToLowerInvariant();
 

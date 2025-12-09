@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace KAW.Application.Interfaces
+namespace KAW.Application.Ports.Outbound
 {
     public interface IAppDbContext
     {

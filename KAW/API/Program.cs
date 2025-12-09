@@ -1,5 +1,5 @@
 using DotNetEnv;
-using KAW.Application.Interfaces;
+using KAW.Application.Ports.Outbound;
 using KAW.Domain.Models;
 using KAW.Infrastructure.Persistence;
 using KAW.Infrastructure.Repository;

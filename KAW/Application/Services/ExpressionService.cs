@@ -1,7 +1,8 @@
-﻿using KAW.Application.Interfaces;
-using KAW.Domain.Models;
+﻿using KAW.Domain.Models;
 using KAW.Application.Helpers;
 using System.Text.RegularExpressions;
+using KAW.Application.Ports.Outbound;
+using KAW.Application.Ports.Inbound;
 
 namespace KAW.Application.Services
 {
@@ -31,13 +32,13 @@ namespace KAW.Application.Services
             return true;
         }
 
-        public async Task<IEnumerable<UserExpression>> FetchAllExpressions(CancellationToken ct = default)
+        public async Task<IReadOnlyCollection<UserExpression>> FetchAllExpressions(CancellationToken ct = default)
         {
             var allExpressions = await _expressionRepo.GetAllAsync(ct);
             return allExpressions;
         }
 
-        public async Task<IEnumerable<UserExpression>> FindExpression(string input, CancellationToken ct = default)
+        public async Task<IReadOnlyCollection<UserExpression>> FindExpression(string input, CancellationToken ct = default)
         {
             if (string.IsNullOrWhiteSpace(input))
             {
