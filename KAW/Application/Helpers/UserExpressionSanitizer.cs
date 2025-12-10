@@ -5,7 +5,7 @@ namespace KAW.Application.Helpers
 {
     public static class UserExpressionSanitizer
     {
-        public static UserExpression CleanExpression(UserExpression input)
+        public static void CleanExpression(UserExpression input)
         {
             var cleanedName = Regex.Replace(input.Name, @"[^\p{L}\p{N} \-']", "")
                 .Trim();
@@ -15,7 +15,6 @@ namespace KAW.Application.Helpers
                 .Trim();
             input.Name = cleanedName;
             input.Description = cleanedDescription;
-            return input;
         }
     }
 }

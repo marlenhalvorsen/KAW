@@ -1,7 +1,9 @@
-﻿using KAW.Application.Interfaces;
-using KAW.Domain.Models;
+﻿using KAW.Domain.Models;
 using KAW.Application.Helpers;
 using System.Text.RegularExpressions;
+using KAW.Application.Ports.Outbound;
+using KAW.Application.Ports.Inbound;
+using Microsoft.IdentityModel.Tokens;
 
 namespace KAW.Application.Services
 {
@@ -31,19 +33,20 @@ namespace KAW.Application.Services
             return true;
         }
 
-        public async Task<IEnumerable<UserExpression>> FetchAllExpressions(CancellationToken ct = default)
+        public async Task<IReadOnlyCollection<UserExpression>> FetchAllExpressions(CancellationToken ct = default)
         {
             var allExpressions = await _expressionRepo.GetAllAsync(ct);
             return allExpressions;
         }
 
-        public async Task<IEnumerable<UserExpression>> FindExpression(string input, CancellationToken ct = default)
+        public async Task<IReadOnlyCollection<UserExpression>> FindExpression(string input, CancellationToken ct = default)
         {
             if (string.IsNullOrWhiteSpace(input))
             {
-                throw new DirectoryNotFoundException(
-                      $"Searchword must contain at least one character: {input}"
-                );
+                throw new ArgumentException(
+                    "Searchword must contain at least one character.", 
+                    nameof(input));
+
             }
 
             var cleaned = Regex.Replace(input, @"[^\p{L}\p{N} \-']", "")
@@ -53,22 +56,22 @@ namespace KAW.Application.Services
 
             if (!foundExpressions.Any())
             {
-                throw new DirectoryNotFoundException(
-                    $"No userExpression with the searchword {input} was found.");
+                return Array.Empty<UserExpression>();
             }
             return foundExpressions;
         }
 
         public async Task<UserExpression> SaveExpression(UserExpression expression, CancellationToken ct = default)
         {
-            if (string.IsNullOrWhiteSpace(expression.Name))
+            if (string.IsNullOrWhiteSpace(expression.Name) || string.IsNullOrWhiteSpace(expression.Description))
             {
                 throw new ArgumentException(
-                $"Userexpression must contain a name: {expression}"
+                $"UserExpression must contain both a name and description: {expression}"
                 );
             }
 
-            var cleanedExpression = UserExpressionSanitizer.CleanExpression(expression);
+            UserExpressionSanitizer.CleanExpression(expression);
+
             await _expressionRepo.AddAsync(expression, ct);
             await _expressionRepo.SaveChangesAsync();   
         
@@ -78,23 +81,25 @@ namespace KAW.Application.Services
         public async Task<UserExpression?> UpdateExpression(UserExpression userExpression, CancellationToken ct = default)
         {
             if (string.IsNullOrWhiteSpace(userExpression.Name))
-            {
-                throw new KeyNotFoundException(
-                    $"There is no userexpression chosen"
-                    );
-            }
+                throw new ArgumentException(
+                    "Expression name must not be empty.", nameof(userExpression.Name));
 
+            // find entity
             var expression = await _expressionRepo.FindExpressionById(userExpression.Id, ct);
             if (expression == null)
-            {
-                return null;
-            }
-            var cleanedName = UserExpressionSanitizer.CleanExpression(userExpression);
-            expression.Name = cleanedName.Name;
-            expression.Description = cleanedName.Description;
+                throw new KeyNotFoundException(
+                    $"Expression with id {userExpression.Id} not found.");
+
+            //copy new domain values into EF entity
+            expression.Name = userExpression.Name;
+            expression.Description = userExpression.Description;
+
+            //clean entity with new values
+            UserExpressionSanitizer.CleanExpression(expression);
 
             await _expressionRepo.UpdateAsync(expression, ct);
             await _expressionRepo.SaveChangesAsync();
+
             return expression;
         }
 

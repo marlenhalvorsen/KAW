@@ -1,8 +1,8 @@
-﻿using KAW.Application.Interfaces;
+﻿using KAW.Application.Ports.Outbound;
 using KAW.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
-using System.Threading.Tasks; 
+using System.Threading.Tasks;
 
 namespace KAW.Infrastructure.Persistence
 {

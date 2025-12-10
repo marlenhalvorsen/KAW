@@ -1,7 +1,7 @@
-﻿using KAW.Application.Interfaces;
-using KAW.Domain.Models;
+﻿using KAW.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using KAW.Infrastructure.Persistence;
+using KAW.Application.Ports.Outbound;
 
 namespace KAW.Infrastructure.Repository
 {
@@ -24,16 +24,16 @@ namespace KAW.Infrastructure.Repository
             var userExpression = await _appDbContext.UserExpressions.FindAsync(id, ct);
             if (userExpression == null) return false; 
 
-                _appDbContext.UserExpressions.Remove(userExpression);
+            _appDbContext.UserExpressions.Remove(userExpression);
             return true; 
         }
 
-        public async Task<IEnumerable<UserExpression>> GetAllAsync(CancellationToken ct)
+        public async Task<IReadOnlyCollection<UserExpression>> GetAllAsync(CancellationToken ct)
         {
             return await _appDbContext.UserExpressions.ToListAsync(ct);
         }
 
-        public async Task<IEnumerable<UserExpression>> GetByInputAsync(string input, CancellationToken ct)
+        public async Task<IReadOnlyCollection<UserExpression>> GetByInputAsync(string input, CancellationToken ct)
         {
             var normalizedInput = input.ToLowerInvariant();
 
@@ -49,14 +49,10 @@ namespace KAW.Infrastructure.Repository
             await _appDbContext.SaveChangesAsync(ct);
         }
 
-        public async Task<UserExpression?> UpdateAsync(UserExpression userExpression, CancellationToken ct)
+        public Task UpdateAsync(UserExpression entity, CancellationToken ct)
         {
-            var existing = await _appDbContext.UserExpressions.FindAsync(userExpression.Id);
-            if (existing == null) return null; 
-            existing.Name = userExpression.Name;
-            existing.Description = userExpression.Description;
-
-            return existing;
+            _appDbContext.UserExpressions.Update(entity);
+            return Task.CompletedTask;
         }
         public async Task<UserExpression?> FindExpressionById(int id, CancellationToken ct = default)
         {
