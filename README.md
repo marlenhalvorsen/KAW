@@ -39,7 +39,7 @@ I use the project as a learning ground to:
 - Revisit C# fundamentals
 - Work with Hexagonal architecture (Domain, Application, Infrastructure, Web)
 - Apply SOLID principles in practice
-- Develop iteratively: starting as a console app, later evolving into a Web API (and possibly a frontend)
+- Develop iteratively: starting as a console app, later evolving into a Web API 
 - Ensure quality with testing
 
 ## Status
@@ -48,7 +48,6 @@ I use the project as a learning ground to:
 - [x] In-memory list with methods
 - [x] EF Core integration
 - [x] Refactor repo and service for DbContext
-- [ ] Integration of message broker for event-based architecture
 - [ ] API endpoints
 
 ## Getting Started
