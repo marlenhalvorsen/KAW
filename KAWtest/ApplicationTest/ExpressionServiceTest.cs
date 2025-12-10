@@ -143,8 +143,8 @@ public class ExpressionServiceTests
     [Theory]
     [InlineData(null, null)]
     [InlineData("Kaw", null)]
-    [InlineData(null, "Noget der er træls")]
-    [InlineData("", "Noget der er træls")]
+    [InlineData(null, "Noget der er trÃ¦ls")]
+    [InlineData("", "Noget der er trÃ¦ls")]
     [InlineData("Kaw", "")]
     public async Task SaveExpression_ShouldThrowArgumentException_WhenNameOrDescriptionIsMissing(
         string? name,
@@ -164,7 +164,7 @@ public class ExpressionServiceTests
     public async Task SaveExpression_ShouldCallAddAsyncOnce_WhenExpressionAreSaved()
     {
         // Arrange
-        var userExpression = new UserExpression { Name = "Kaw", Description = "Noget der er træls" };
+        var userExpression = new UserExpression { Name = "Kaw", Description = "Noget der er trÃ¦ls" };
 
         // Act
         var result = await _service.SaveExpression(userExpression);
@@ -177,7 +177,7 @@ public class ExpressionServiceTests
     public async Task SaveExpression_ShouldCallSaveChangesOnce_WhenExpressionAreSaved()
     {
         // Arrange
-        var userExpression = new UserExpression { Name = "Kaw", Description = "Noget der er træls" };
+        var userExpression = new UserExpression { Name = "Kaw", Description = "Noget der er trÃ¦ls" };
 
         // Act
         var result = await _service.SaveExpression(userExpression, It.IsAny<CancellationToken>());
@@ -189,7 +189,7 @@ public class ExpressionServiceTests
     public async Task SaveExpression_ShouldReturnExpression_WhenExpressionAreSavedSuccessfully()
     {
         // Arrange
-        var userExpression = new UserExpression { Name = "Kaw", Description = "Noget der er træls" };
+        var userExpression = new UserExpression { Name = "Kaw", Description = "Noget der er trÃ¦ls" };
 
         // Act
         var result = await _service.SaveExpression(userExpression, It.IsAny<CancellationToken>());
@@ -201,7 +201,7 @@ public class ExpressionServiceTests
     public async Task UpdateExpression_ShouldThrowException_IfNameOfExpressionIsNullOrWhitespace()
     {
         // Arrange
-        var userExpression = new UserExpression { Description = "Noget der er træls" };
+        var userExpression = new UserExpression { Description = "Noget der er trÃ¦ls" };
         Func<Task> act = () => _service.UpdateExpression(userExpression, It.IsAny<CancellationToken>());
 
         // Act and Assert
@@ -229,7 +229,7 @@ public class ExpressionServiceTests
     public async Task UpdateExpression_ShouldReturnExpression_WhenSavedSuccessfully()
     {
         // Arrange
-        var userExpression = new UserExpression { Id = 1, Name = "Kaw", Description = "Noget der er træls" };
+        var userExpression = new UserExpression { Id = 1, Name = "Kaw", Description = "Noget der er trÃ¦ls" };
         var existingUserExpression = new UserExpression { Id = 1, Name = "old name", Description = "old description" };
 
         _repoMock
