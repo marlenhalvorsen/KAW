@@ -4,6 +4,7 @@ using KAW.Application.Services;
 using KAW.Domain.Models;
 using KAW.Infrastructure.Repository;
 using Moq;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using Xunit;
 
@@ -92,7 +93,6 @@ public class ExpressionServiceTests
         var listOfExpression = new List<UserExpression> { 
             new UserExpression 
             { Id = 1, Name = "something", Description = "somethingElse" } };
-
         _repoMock
             .Setup(r => r.GetByInputAsync(input, It.IsAny<CancellationToken>()))
             .ReturnsAsync(listOfExpression);
@@ -103,8 +103,41 @@ public class ExpressionServiceTests
         // Assert
         result.Should().BeEquivalentTo(listOfExpression);
         _repoMock.Verify(r => r.GetByInputAsync(input, It.IsAny<CancellationToken>()), Times.Once);
-
     }
 
+    [Fact]
+    public async Task FindExpression_ShpuldReturnEmptyList_WhenInputIsValid()
+    {
+        // Arrange
+        var input = "kaw";
+        var emptyList = new List<UserExpression>();
+        _repoMock
+            .Setup(r => r.GetByInputAsync(input, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(emptyList);
+
+        // Act
+        var emptyResult = await _service.FindExpression(input);
+
+        // Assert
+        emptyResult.Should().BeEmpty();
+        _repoMock.Verify(r => r.GetByInputAsync(input, It.IsAny<CancellationToken>()),Times.Once);
+    }
+
+    [Fact]
+    public async Task FindExpression_ShouldThrowEception_WhenInputIsNullOrWhiteSpace()
+    {
+        // Arrange
+        var input = string.Empty;
+        Func<Task> act = () => _service.FindExpression(input);
+
+        // Act and Assert
+        await act.Should()
+            .ThrowAsync<ArgumentException>()
+            .WithMessage("Searchword must contain at least one character.*");
+
+        var exception = await act.Should().ThrowAsync<ArgumentException>();
+        exception.Which.ParamName.Should().Be("input");
+    }
+    
 
 }

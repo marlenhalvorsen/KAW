@@ -3,6 +3,7 @@ using KAW.Application.Helpers;
 using System.Text.RegularExpressions;
 using KAW.Application.Ports.Outbound;
 using KAW.Application.Ports.Inbound;
+using Microsoft.IdentityModel.Tokens;
 
 namespace KAW.Application.Services
 {
@@ -42,9 +43,10 @@ namespace KAW.Application.Services
         {
             if (string.IsNullOrWhiteSpace(input))
             {
-                throw new DirectoryNotFoundException(
-                      $"Searchword must contain at least one character: {input}"
-                );
+                throw new ArgumentException(
+                    "Searchword must contain at least one character.", 
+                    nameof(input));
+
             }
 
             var cleaned = Regex.Replace(input, @"[^\p{L}\p{N} \-']", "")
@@ -54,8 +56,7 @@ namespace KAW.Application.Services
 
             if (!foundExpressions.Any())
             {
-                throw new DirectoryNotFoundException(
-                    $"No userExpression with the searchword {input} was found.");
+                return Array.Empty<UserExpression>();
             }
             return foundExpressions;
         }
@@ -80,15 +81,16 @@ namespace KAW.Application.Services
         {
             if (string.IsNullOrWhiteSpace(userExpression.Name))
             {
-                throw new KeyNotFoundException(
-                    $"There is no userexpression chosen"
-                    );
+                throw new ArgumentNullException(
+                    "Expression name must not be empty.", 
+                    nameof(userExpression));
             }
 
             var expression = await _expressionRepo.FindExpressionById(userExpression.Id, ct);
             if (expression == null)
             {
-                return null;
+                throw new KeyNotFoundException(
+                    $"Expression with id {userExpression.Id} not found.");
             }
             var cleanedName = UserExpressionSanitizer.CleanExpression(userExpression);
             expression.Name = cleanedName.Name;
@@ -96,6 +98,7 @@ namespace KAW.Application.Services
 
             await _expressionRepo.UpdateAsync(expression, ct);
             await _expressionRepo.SaveChangesAsync();
+
             return expression;
         }
 
