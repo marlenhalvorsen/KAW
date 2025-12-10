@@ -49,14 +49,10 @@ namespace KAW.Infrastructure.Repository
             await _appDbContext.SaveChangesAsync(ct);
         }
 
-        public async Task<UserExpression?> UpdateAsync(UserExpression userExpression, CancellationToken ct)
+        public Task UpdateAsync(UserExpression entity, CancellationToken ct)
         {
-            var existing = await _appDbContext.UserExpressions.FindAsync(userExpression.Id);
-            if (existing == null) return null; 
-            existing.Name = userExpression.Name;
-            existing.Description = userExpression.Description;
-
-            return existing;
+            _appDbContext.UserExpressions.Update(entity);
+            return Task.CompletedTask;
         }
         public async Task<UserExpression?> FindExpressionById(int id, CancellationToken ct = default)
         {

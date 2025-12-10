@@ -4,6 +4,7 @@ using KAW.Application.Services;
 using KAW.Domain.Models;
 using KAW.Infrastructure.Repository;
 using Moq;
+using Sprache;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using Xunit;
@@ -138,6 +139,122 @@ public class ExpressionServiceTests
         var exception = await act.Should().ThrowAsync<ArgumentException>();
         exception.Which.ParamName.Should().Be("input");
     }
-    
 
+    [Theory]
+    [InlineData(null, null)]
+    [InlineData("Kaw", null)]
+    [InlineData(null, "Noget der er træls")]
+    [InlineData("", "Noget der er træls")]
+    [InlineData("Kaw", "")]
+    public async Task SaveExpression_ShouldThrowArgumentException_WhenNameOrDescriptionIsMissing(
+        string? name,
+        string? description)
+    {
+        // Arrange
+        var expr = new UserExpression { Name = name, Description = description };
+        Func<Task> act = () => _service.SaveExpression(expr);
+
+        // Act & Assert
+        await act.Should()
+            .ThrowAsync<ArgumentException>()
+            .WithMessage("UserExpression must contain both a name and description*");
+    }
+
+    [Fact]
+    public async Task SaveExpression_ShouldCallAddAsyncOnce_WhenExpressionAreSaved()
+    {
+        // Arrange
+        var userExpression = new UserExpression { Name = "Kaw", Description = "Noget der er træls" };
+
+        // Act
+        var result = await _service.SaveExpression(userExpression);
+
+        // Assert
+        _repoMock.Verify(r => r.AddAsync(userExpression, It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    [Fact]
+    public async Task SaveExpression_ShouldCallSaveChangesOnce_WhenExpressionAreSaved()
+    {
+        // Arrange
+        var userExpression = new UserExpression { Name = "Kaw", Description = "Noget der er træls" };
+
+        // Act
+        var result = await _service.SaveExpression(userExpression, It.IsAny<CancellationToken>());
+
+        // Assert
+        _repoMock.Verify(r => r.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+    }
+    [Fact]
+    public async Task SaveExpression_ShouldReturnExpression_WhenExpressionAreSavedSuccessfully()
+    {
+        // Arrange
+        var userExpression = new UserExpression { Name = "Kaw", Description = "Noget der er træls" };
+
+        // Act
+        var result = await _service.SaveExpression(userExpression, It.IsAny<CancellationToken>());
+
+        // Assert
+        result.Should().Be(userExpression);
+    }
+    [Fact]
+    public async Task UpdateExpression_ShouldThrowException_IfNameOfExpressionIsNullOrWhitespace()
+    {
+        // Arrange
+        var userExpression = new UserExpression { Description = "Noget der er træls" };
+        Func<Task> act = () => _service.UpdateExpression(userExpression, It.IsAny<CancellationToken>());
+
+        // Act and Assert
+        await act.Should()
+            .ThrowAsync<ArgumentException>()
+            .WithMessage("Expression name must not be empty.*");
+    }
+    [Fact]
+    public async Task UpdateExpression_ShouldThrowException_WhenKeyNotFound()
+    {
+        // Arrange
+        var userExpression = new UserExpression { Name = "Kaw" };
+        _repoMock
+            .Setup(r => r.FindExpressionById(userExpression.Id, It.IsAny<CancellationToken>()))
+            .ReturnsAsync((UserExpression?)null);
+
+        Func<Task> act = () => _service.UpdateExpression(userExpression, It.IsAny<CancellationToken>());
+        
+        // Act and Assert
+        await act.Should()
+            .ThrowAsync<KeyNotFoundException>()
+            .WithMessage($"Expression with id {userExpression.Id} not found*");
+    }
+    [Fact]
+    public async Task UpdateExpression_ShouldReturnExpression_WhenSavedSuccessfully()
+    {
+        // Arrange
+        var userExpression = new UserExpression { Id = 1, Name = "Kaw", Description = "Noget der er træls" };
+        var existingUserExpression = new UserExpression { Id = 1, Name = "old name", Description = "old description" };
+
+        _repoMock
+            .Setup(r => r.FindExpressionById(userExpression.Id, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(existingUserExpression);
+
+        _repoMock
+          .Setup(r => r.UpdateAsync(existingUserExpression, It.IsAny<CancellationToken>()))
+          .Returns(Task.CompletedTask);
+
+        _repoMock
+            .Setup(r => r.SaveChangesAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        // Act
+        var result = await _service.UpdateExpression(userExpression);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().BeSameAs(existingUserExpression);
+
+        result.Name.Should().Be(userExpression.Name);
+        result.Description.Should().Be(userExpression.Description);
+
+        _repoMock.Verify(r => r.FindExpressionById(1, It.IsAny<CancellationToken>()), Times.Once);
+        _repoMock.Verify(r => r.UpdateAsync(existingUserExpression, It.IsAny<CancellationToken>()), Times.Once);
+        _repoMock.Verify(r => r.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+    }
 }

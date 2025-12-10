@@ -63,14 +63,15 @@ namespace KAW.Application.Services
 
         public async Task<UserExpression> SaveExpression(UserExpression expression, CancellationToken ct = default)
         {
-            if (string.IsNullOrWhiteSpace(expression.Name))
+            if (string.IsNullOrWhiteSpace(expression.Name) || string.IsNullOrWhiteSpace(expression.Description))
             {
                 throw new ArgumentException(
-                $"Userexpression must contain a name: {expression}"
+                $"UserExpression must contain both a name and description: {expression}"
                 );
             }
 
-            var cleanedExpression = UserExpressionSanitizer.CleanExpression(expression);
+            UserExpressionSanitizer.CleanExpression(expression);
+
             await _expressionRepo.AddAsync(expression, ct);
             await _expressionRepo.SaveChangesAsync();   
         
@@ -80,21 +81,21 @@ namespace KAW.Application.Services
         public async Task<UserExpression?> UpdateExpression(UserExpression userExpression, CancellationToken ct = default)
         {
             if (string.IsNullOrWhiteSpace(userExpression.Name))
-            {
-                throw new ArgumentNullException(
-                    "Expression name must not be empty.", 
-                    nameof(userExpression));
-            }
+                throw new ArgumentException(
+                    "Expression name must not be empty.", nameof(userExpression.Name));
 
+            // find entity
             var expression = await _expressionRepo.FindExpressionById(userExpression.Id, ct);
             if (expression == null)
-            {
                 throw new KeyNotFoundException(
                     $"Expression with id {userExpression.Id} not found.");
-            }
-            var cleanedName = UserExpressionSanitizer.CleanExpression(userExpression);
-            expression.Name = cleanedName.Name;
-            expression.Description = cleanedName.Description;
+
+            //copy new domain values into EF entity
+            expression.Name = userExpression.Name;
+            expression.Description = userExpression.Description;
+
+            //clean entity with new values
+            UserExpressionSanitizer.CleanExpression(expression);
 
             await _expressionRepo.UpdateAsync(expression, ct);
             await _expressionRepo.SaveChangesAsync();
