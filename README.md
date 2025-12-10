@@ -5,7 +5,8 @@
 
 **KAW** is a word from the North Jutland dialect. It describes something difficult, heavy, or a bit troublesome – e.g., *a kaw case*.
 
-This project is a **practice playground** where I explore software architecture and coding patterns, while also having fun with North Jutlandic expressions.
+This microservice currently handles CRUD operations for user-submitted expressions.
+The project focuses on architecture, testability, and CI — domain complexity may grow over time.
 
 ## Tech Stack
 - .NET 8
@@ -14,7 +15,6 @@ This project is a **practice playground** where I explore software architecture 
 - GitHub Actions (CI)
 
 ## Continuous Integration & Branch Policy
-
 All code changes go through Pull Requests against the `master` branch.  
 Each PR triggers the .NET Build & Test GitHub Actions workflow, which must pass before merging.  
 Branch protection rules ensure that:
