@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Domain\Services\" />
+    <Folder Include="Application\Mappers\" />
     <Folder Include="Infrastructure\Migrations\" />
   </ItemGroup>
 	
