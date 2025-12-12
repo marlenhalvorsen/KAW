@@ -25,7 +25,7 @@ namespace KAW.Application.Services
                 ?? throw new KeyNotFoundException();
 
             await _expressionRepo.DeleteAsync(id, ct);
-            await _expressionRepo.SaveChangesAsync();
+            await _expressionRepo.SaveChangesAsync(ct);
         }
 
         public async Task<IReadOnlyCollection<UserExpression>> FetchAllExpressions(CancellationToken ct = default)
