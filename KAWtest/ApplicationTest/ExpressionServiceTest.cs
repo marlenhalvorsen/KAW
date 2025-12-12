@@ -52,4 +52,25 @@ public class ExpressionServiceTests
         _repoMock.Verify(r => r.DeleteAsync(1, It.IsAny<CancellationToken>()), Times.Once);
 
     }
+    [Fact]
+    public async Task FetchAllExpressions_ShouldReturnAllExpressions()
+    {
+        // Arrange
+        var name = "name";
+        var description = "description";
+        var userExpressions = new List<UserExpression> {
+            new UserExpression(name, description) 
+        };
+
+        _repoMock
+            .Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(userExpressions);
+
+        // Act
+        var result = await _service.FetchAllExpressions();
+
+        // Assert 
+        result.Should().BeEquivalentTo(userExpressions);
+        _repoMock.Verify(r => r.GetAllAsync(It.IsAny<CancellationToken>()), Times.Once);
+    }
 }
