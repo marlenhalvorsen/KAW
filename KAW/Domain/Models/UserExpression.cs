@@ -2,6 +2,8 @@
 
 namespace KAW.Domain.Models
 {
+    //private setters ensures that the properties can only be set within the class,
+    //enforcing encapsulation and data integrity.
     public class UserExpression
     {
         public int Id { get; private set; }
