@@ -5,6 +5,7 @@ namespace KAW.Application.Ports.Outbound
     public interface IUserExpressionRepo
     {
         Task AddAsync(UserExpression userExpression, CancellationToken ct = default); 
+        Task<bool> ExistsByName(string name, CancellationToken ct = default);
         Task<IReadOnlyCollection<UserExpression>> GetByInputAsync(string input, CancellationToken ct = default);
         Task<IReadOnlyCollection<UserExpression>> GetAllAsync(CancellationToken ct = default); 
         Task UpdateAsync(UserExpression userExpression, CancellationToken ct = default);

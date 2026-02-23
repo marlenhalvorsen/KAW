@@ -56,10 +56,15 @@ namespace KAW.Infrastructure.Repository
         }
         public async Task<UserExpression?> FindExpressionById(int id, CancellationToken ct = default)
         {
-            var userExpression = await _appDbContext.UserExpressions.FindAsync(id);
+            var userExpression = await _appDbContext.UserExpressions.FindAsync(id, ct);
             if(userExpression == null) return null;
             return userExpression;
         }
 
+        async Task<bool> IUserExpressionRepo.ExistsByName(string name, CancellationToken ct)
+        {
+            return await _appDbContext.UserExpressions
+                .AnyAsync(x => x.Name.ToLower() == name.ToLower());
+        }
     }
 }
