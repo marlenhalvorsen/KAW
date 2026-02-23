@@ -1,13 +1,12 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace KAW.Domain.Models
 {
     public class UserExpression
     {
-        public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string? Description { get; set; }
+        public int Id { get; private set; }
+        public string Name { get; private set; } = string.Empty;
+        public string Description { get; private set; }
 
         private static readonly Regex AllowedCharacters =
             new Regex(@"[^\p{L}\p{N} \-']", RegexOptions.Compiled);
@@ -15,8 +14,7 @@ namespace KAW.Domain.Models
 
         public UserExpression(string name, string description)
         {
-            Name = name;
-            Description = description;
+            Update(name, description);
         }
         public override string ToString()
         {
@@ -31,7 +29,7 @@ namespace KAW.Domain.Models
 
         private void SetName(string name)
         {
-            if (name.IsNullOrEmpty())
+            if (string.IsNullOrWhiteSpace(name))
                 throw new DomainException("Name cannot be empty");
 
             Name = Clean(name);
@@ -39,7 +37,7 @@ namespace KAW.Domain.Models
 
         private void SetDescription(string description)
         {
-            if (description.IsNullOrEmpty())
+            if (string.IsNullOrWhiteSpace(description))
                 throw new DomainException("Description cannot be empty");
 
             Description = Clean(description);
