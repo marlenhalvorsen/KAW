@@ -48,7 +48,7 @@ I use the project as a learning ground to:
 - [x] In-memory list with methods
 - [x] EF Core integration
 - [x] Refactor repo and service for DbContext
-- [ ] API endpoints
+- [x] API endpoints
 
 ## Getting Started
 
