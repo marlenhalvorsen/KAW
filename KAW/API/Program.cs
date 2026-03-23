@@ -1,5 +1,7 @@
 using DotNetEnv;
+using KAW.Application.Ports.Inbound;
 using KAW.Application.Ports.Outbound;
+using KAW.Application.Services;
 using KAW.Domain.Models;
 using KAW.Infrastructure.Persistence;
 using KAW.Infrastructure.Repository;
@@ -18,7 +20,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IUserExpressionRepo, ExpressionRepo>();
-
+builder.Services.AddScoped<IExpressionService, ExpressionService>();
 
 var cs = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(cs));
